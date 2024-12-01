@@ -30,7 +30,7 @@ auto_scale_lr = dict(base_batch_size=512)
 default_hooks = dict(checkpoint=dict(save_best='PCK', rule='greater'))
 
 # base dataset settings
-dataset_type = 'JhmdbFlowDataset'
+dataset_type = 'JBFJhmdbDataset'
 data_mode = 'topdown'
 data_root = '/scratch/PI/cqf/har_data/jhmdb'
 
@@ -40,9 +40,9 @@ codec = dict(
 
 # model settings
 model = dict(
-    type='TopdownPoseEstimatorPSM',
+    type='SNSNet',
     data_preprocessor=dict(
-        type='PoseFlowDataPreprocessor',
+        type='JBFDataPreprocessor',
         mean=[123.675, 116.28, 103.53],
         std=[58.395, 57.12, 57.375],
         bgr_to_rgb=True),
@@ -109,7 +109,7 @@ model = dict(
             'pretrain_models/hrnet_w32-36af842e.pth'),
     ),
     head=dict(
-        type='PointHead',
+        type='JBFHead',
         in_channels=32,
         out_channels=15,
         num_layers=3,
@@ -181,6 +181,6 @@ test_dataloader = val_dataloader
 
 # evaluators
 val_evaluator = [
-    dict(type='PSMMetricWrapper', use_flow=True, metric_config=dict(type='JhmdbPCKAccuracy', thr=0.2, norm_item=['bbox', 'torso']), outfile_prefix='logs/jhmdb_cvpr/td-hm_res50_8xb64-20e_jhmdb-sub1-256x256'),
+    dict(type='JBFMetricWrapper', use_flow=True, metric_config=dict(type='JhmdbPCKAccuracy', thr=0.2, norm_item=['bbox', 'torso']), outfile_prefix='logs/jhmdb_cvpr/td-hm_res50_8xb64-20e_jhmdb-sub1-256x256'),
 ]
 test_evaluator = val_evaluator

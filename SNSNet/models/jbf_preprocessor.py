@@ -10,7 +10,7 @@ from mmengine.utils import is_seq_of
 from mmpose.registry import MODELS
 
 @MODELS.register_module()
-class PoseFlowDataPreprocessor(PoseDataPreprocessor):
+class JBFDataPreprocessor(PoseDataPreprocessor):
     def __init__(self,
                  mean: Sequence[float] = None,
                  std: Sequence[float] = None,

@@ -33,11 +33,11 @@ data_root = '/scratch/PI/cqf/har_data/coco/'
 
 # codec settings
 codec = dict(
-    type='PoseSegmentationMask', input_size=(256, 256), mask_size=(256, 256), dataset_type=dataset_type, sigma=3, use_flow=False)
+    type='JBFCodec', input_size=(256, 256), mask_size=(256, 256), dataset_type=dataset_type, sigma=3, use_flow=False)
 
 # model settings
 model = dict(
-    type='TopdownPoseEstimatorPSM',
+    type='SNSNet',
     data_preprocessor=dict(
         type='PoseDataPreprocessor',
         mean=[123.675, 116.28, 103.53],
@@ -106,7 +106,7 @@ model = dict(
             'pretrain_models/hrnet_w32-36af842e.pth'),
     ),
     head=dict(
-        type='PointHead',
+        type='JBFHead',
         in_channels=32,
         out_channels=17,
         num_layers=3,
@@ -181,7 +181,7 @@ test_dataloader = val_dataloader
 
 # evaluators
 val_evaluator = dict(
-    type='CocoMetricPSM',
+    type='JBFCocoMetric',
     outfile_prefix='logs/coco_cvpr/td-hm_hrnet-w32_8xb64-210e_coco-256x192',
     ann_file=data_root + 'annotations/person_keypoints_val2017.json')
 test_evaluator = val_evaluator

@@ -490,8 +490,8 @@ class BodyMaskHead(SimplifiedPointRendMaskHead):
             if y_min >= 0:
                 assert y_max >= 0 and x_min >= 0 and x_max >= 0
                 neg_mask[y_min:y_max, x_min:x_max] = False
-            if torch.sum(neg_mask) == 0:
-                neg_mask[0, 0] = True
+            # if torch.sum(neg_mask) == 0:
+            #     neg_mask[0, 0] = True
             neg_idxs = torch.nonzero(neg_mask).flip(1)
 
             pos_mask = (gt_masks[i] > 0)
@@ -504,7 +504,13 @@ class BodyMaskHead(SimplifiedPointRendMaskHead):
                 neg_idxs = neg_idxs[torch.randperm(len(neg_idxs)),:][:num_samples]
                 point_coords.append(neg_idxs)
                 point_labels.append(torch.zeros(num_samples))
-
+            elif len(neg_idxs) == 0:
+                num_samples = self.mask_point_train_num_points
+                while len(pos_idxs) < num_samples:
+                    pos_idxs = torch.cat([pos_idxs, pos_idxs], dim=0)
+                pos_idxs = pos_idxs[torch.randperm(len(pos_idxs)),:][:num_samples]
+                point_coords.append(pos_idxs)
+                point_labels.append(torch.zeros(num_samples))
             else:
                 num_samples = self.mask_point_train_num_points // 2
                 while len(neg_idxs) < num_samples:

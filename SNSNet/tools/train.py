@@ -6,6 +6,10 @@ import os.path as osp
 from mmengine.config import Config, DictAction
 from mmengine.runner import Runner
 
+from models import *
+from datasets import *
+from codecs import *
+from metrics import *
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a pose model')
