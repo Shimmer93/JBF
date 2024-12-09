@@ -1,0 +1,6 @@
+[submodule "SNSNet"]
+	path = SNSNet
+	url = https://github.com/Shimmer93/SNSNet.git
+[submodule "JBFConv3D"]
+	path = JBFConv3D
+	url = https://github.com/Shimmer93/JBFConv3D.git
